@@ -1,0 +1,13 @@
+name: Produccion
+
+on:
+  push:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run dummy step
+        run: echo "Produccion pipeline"

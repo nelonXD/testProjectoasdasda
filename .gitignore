@@ -1,0 +1,13 @@
+# Ignore the database persistent storage
+db_data/
+
+# Ignore Docker environment variables
+.env
+
+# MacOS / Windows artifacts
+.DS_Store
+Thumbs.db
+
+# Any top-level vendor or node_modules just in case
+/vendor/
+/node_modules/

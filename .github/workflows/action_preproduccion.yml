@@ -1,0 +1,13 @@
+name: Preproduccion
+
+on:
+  push:
+    branches: [ "release" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run dummy step
+        run: echo "Preproduccion pipeline"

@@ -1,0 +1,11 @@
+name: Push general
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run dummy step
+        run: echo "Push pipeline"
