@@ -12,8 +12,20 @@ class Caso extends Model
     protected $fillable = [
         'nombre_trabajador',
         'titulo_caso',
+        'rut',
+        'edad',
+        'sexo',
+        'profesion',
+        'antiguedad',
+        'establecimiento',
+        'area',
+        'jefatura',
+        'fecha_accidente',
+        'hora_accidente',
+        'lugar_especifico',
+        'actividad_realizada',
         'relato',
-        'resultados_ia',
+        'resultados_ia'
     ];
 
     protected $casts = [
