@@ -105,6 +105,22 @@ class CaseAnalysisServiceTest extends TestCase
         ]);
     }
 
+    public function test_it_promotes_a_symptom_when_the_model_omits_the_lesion_type(): void
+    {
+        $service = new CaseAnalysisService();
+
+        $normalized = $service->normalizeHechos([
+            ['id' => 1, 'descripcion' => 'Box temporal sin escritorio', 'tipo_nodo' => 'permanente'],
+            ['id' => 2, 'descripcion' => 'Mobiliario no adecuado para la tarea', 'tipo_nodo' => 'hecho'],
+            ['id' => 3, 'descripcion' => 'Exposición prolongada a postura inadecuada', 'tipo_nodo' => 'hecho'],
+            ['id' => 4, 'descripcion' => 'Aumento progresivo del dolor', 'tipo_nodo' => 'hecho'],
+            ['id' => 5, 'descripcion' => 'Dolor de espalda y cuello', 'tipo_nodo' => 'hecho'],
+        ]);
+
+        $this->assertSame('lesion', $normalized[array_key_last($normalized)]['tipo_nodo']);
+        $this->assertSame('Dolor de espalda y cuello', $normalized[array_key_last($normalized)]['descripcion']);
+    }
+
     public function test_it_rejects_trees_that_are_too_short_to_be_causal(): void
     {
         $service = new CaseAnalysisService();
@@ -214,6 +230,20 @@ class CaseAnalysisServiceTest extends TestCase
         ]);
 
         $this->assertSame('cadena', $normalized[0]['tipo_relacion']);
+    }
+
+    public function test_it_converts_node_types_used_as_relation_aliases_to_chain(): void
+    {
+        $service = new CaseAnalysisService();
+
+        $normalized = $service->normalizeEnlaces([
+            ['origen_id' => 1, 'destino_id' => 2, 'tipo_relacion' => 'hecho'],
+            ['origen_id' => 2, 'destino_id' => 3, 'tipo_relacion' => 'permanente'],
+            ['origen_id' => 1, 'destino_id' => 3, 'tipo_relacion' => 'hecho'],
+            ['origen_id' => 3, 'destino_id' => 4, 'tipo_relacion' => 'lesion'],
+        ], null);
+
+        $this->assertSame(['cadena', 'cadena', 'cadena', 'cadena'], array_column($normalized, 'tipo_relacion'));
     }
 
     public function test_it_connects_isolated_nodes_when_normalizing_the_diagram(): void

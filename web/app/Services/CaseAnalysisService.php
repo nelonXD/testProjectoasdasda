@@ -53,7 +53,7 @@ class CaseAnalysisService
             ];
         }
 
-        if ($lesionCount !== 1) {
+        if ($lesionCount > 1) {
             throw new InvalidArgumentException('Debe existir exactamente un nodo final tipo lesion');
         }
 
@@ -97,7 +97,7 @@ class CaseAnalysisService
             for ($index = count($causalNodes) - 1; $index >= 0; $index--) {
                 $descripcion = strtolower($causalNodes[$index]['descripcion']);
 
-                if (preg_match('/dolor|hormigueo|entumecimiento|lesi[oó]n|fractura|esguince|contusi[oó]n|s[ií]ntoma|afecci[oó]n|trastorno/', $descripcion)) {
+            if (preg_match('/dolor|molestia|hormigueo|entumecimiento|herida|sangrado|lesi[oó]n|fractura|esguince|contusi[oó]n|s[ií]ntoma|afecci[oó]n|trastorno/', $descripcion)) {
                     $lesion = $causalNodes[$index];
                     $lesion['tipo_nodo'] = 'lesion';
                     unset($causalNodes[$index]);
@@ -108,7 +108,7 @@ class CaseAnalysisService
         }
 
         if ($lesion === null) {
-            throw new InvalidArgumentException('No se identificó un daño final previo a la atención médica.');
+            throw new InvalidArgumentException('Debe existir exactamente un nodo final tipo lesion');
         }
 
         $causalNodes[] = $lesion;
@@ -167,7 +167,8 @@ class CaseAnalysisService
             // Algunos modelos describen la relación en vez de usar el enum del diagrama.
             $tipo = match ($tipo) {
                 'condicion', 'condición', 'actividad', 'exposicion', 'exposición', 'repeticion', 'repetición',
-                'efecto', 'evolucion', 'evolución', 'lesion', 'lesión', 'hipotesis', 'hipótesis' => 'cadena',
+                'efecto', 'evolucion', 'evolución', 'lesion', 'lesión', 'hipotesis', 'hipótesis',
+                'hecho', 'permanente' => 'cadena',
                 default => $tipo,
             };
 

@@ -150,7 +150,7 @@ class ModeloLocalController extends Controller
 Actúa como un analista experto en Prevención de Riesgos Laborales y en metodología de Árbol de Causas. Tu misión es transformar el relato en una lista de hechos causalmente relevantes, objetiva, breve y jerárquica.
 
 INSTRUCCIONES DE ANÁLISIS:
-1. Identifica el evento final y resumelo en un único nodo de tipo 'lesion'.
+1. Identifica el evento final y resumelo en un único nodo de tipo 'lesion'. Es obligatorio devolver exactamente un nodo 'lesion'; nunca etiquetes el daño final solo como 'hecho'.
 2. El nodo 'lesion' debe representar únicamente el daño final, por ejemplo dolor, hormigueo, fractura, esguince o trastorno musculoesquelético.
 3. Busca condiciones permanentes y factores de riesgo previos: infraestructura, equipamiento, ergonomía, procedimientos, condiciones del puesto, supervisión, gestión, controles, organización del trabajo, etc.
 4. Separa hechos compuestos en hechos simples, concretos y verificables.
@@ -201,7 +201,7 @@ NORMAS ESTRICTAS:
 10. Además de la secuencia explícita, incorpora las rutas probables de agravamiento y los antecedentes previos que expliquen cómo se pudo llegar al evento o a la lesión.
 11. No agregues enlaces entre un nodo y sí mismo ni enlaces duplicados.
 12. La salida debe ser únicamente JSON puro, sin texto adicional, sin markdown, sin comentarios.
-13. tipo_relacion solo puede ser exactamente 'cadena', 'conjuncion' o 'disyuncion'. 'hipotesis' es un tipo_nodo, nunca un tipo_relacion. Nunca uses nombres de nodos o etapas como 'condicion', 'actividad', 'exposicion', 'repeticion', 'efecto', 'evolucion', 'hipotesis' o 'lesion' como tipo_relacion.
+13. tipo_relacion solo puede ser exactamente 'cadena', 'conjuncion' o 'disyuncion'. Los valores 'permanente', 'hecho', 'hipotesis' y 'lesion' son tipos_nodo, nunca tipos_relacion. Nunca uses nombres de nodos o etapas como 'condicion', 'actividad', 'exposicion', 'repeticion', 'efecto' o 'evolucion' como tipo_relacion.
 14. Si una causa se bifurca en dos ramas, ambas ramas deben volver a converger mediante 'conjuncion' antes de llegar a la lesión.
 15. No dejes ningún nodo con salida hacia un final distinto de la lesión. El único nodo sin enlaces salientes debe ser el nodo tipo 'lesion'.
 16. Antes de responder, verifica que cada ID recibido participe en el diagrama y que exista al menos un nodo destino con dos orígenes distintos.

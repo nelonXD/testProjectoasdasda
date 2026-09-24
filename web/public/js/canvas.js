@@ -233,9 +233,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.nodo-wrapper').forEach(n => n.remove());
         const svg = document.getElementById('svgLines');
         if (svg) {
-            // Eliminar solo las líneas, conservar el <defs>
-            svg.querySelectorAll('line').forEach(l => l.remove());
+            svg.querySelectorAll('line, path.causal-link').forEach(element => element.remove());
         }
+        canvas.scrollLeft = 0;
+        canvas.scrollTop = 0;
+        const previousDebug = document.getElementById('debug-enlaces');
+        if (previousDebug) previousDebug.remove();
+        nodesData = [];
+        linksData = [];
+        resultadosGlobales = {};
         document.getElementById('medidasContainer').classList.add('hidden');
         document.getElementById('listaMedidas').innerHTML = '';
         factsPanel.classList.add('hidden');
@@ -273,6 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             // Forzar mostrar lo que respondió la IA en la consola (como un elemento oculto)
+            const previousDebug = document.getElementById('debug-enlaces');
+            if (previousDebug) previousDebug.remove();
             const debugDiv = document.createElement('div');
             debugDiv.style.display = 'none';
             debugDiv.id = 'debug-enlaces';
